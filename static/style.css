@@ -1,32 +1,84 @@
-body{
-    font-family: Arial, sans-serif;
-    background:#f5f7fb;
+/* static/style.css */
+
+/* Жалпы беттің баптаулары */
+body {
+    background-color: #f4f7f9;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #334155;
 }
 
-.container{
-    width:900px;
-    margin:auto;
+/* Басты карталар стилі (Модуль 9 үшін) */
+.main-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    background: #ffffff;
+    transition: all 0.3s ease;
 }
 
-h1{
-    text-align:center;
-    color:#2c3e50;
+.main-card:hover {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-.card{
-    background:white;
-    padding:20px;
-    margin:20px 0;
-    border-radius:15px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+/* Чат терезесінің стилі (Модуль 8: NLP) */
+.chat-area {
+    height: 350px;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
 }
 
-input{
-    width:70%;
-    padding:10px;
+/* Боттың жауабы (Көпіршік стилі) */
+.bot-msg {
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 12px 16px;
+    border-radius: 15px 15px 15px 2px;
+    margin-bottom: 10px;
+    max-width: 85%;
+    font-size: 14px;
+    align-self: flex-start;
+    border: 1px solid #dbeafe;
 }
 
-button{
-    padding:10px 15px;
-    cursor:pointer;
+/* Пайдаланушының хабарламасы */
+.user-msg {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 12px 16px;
+    border-radius: 15px 15px 2px 15px;
+    margin-bottom: 10px;
+    max-width: 85%;
+    font-size: 14px;
+    align-self: flex-end;
+    text-align: right;
+}
+
+/* Батырмалар стилі */
+.btn-custom {
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 12px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* Регрессия және Жіктеу блоктарының тақырыптары */
+h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Этикалық ескертулерге арналған стиль (Модуль 10) */
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
 }
