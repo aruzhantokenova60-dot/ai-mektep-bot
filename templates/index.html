@@ -1,68 +1,95 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-<meta charset="UTF-8">
-<title>AI Мектеп көмекшісі</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Mektep-Bot | 10 Модульдік Жоба</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
+        .main-card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .chat-area { height: 350px; overflow-y: auto; background: #fff; border-radius: 15px; padding: 20px; border: 1px solid #dee2e6; }
+        .bot-msg { background: #e7f3ff; color: #0052cc; padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; display: inline-block; }
+        .user-msg { background: #f0f0f0; padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; text-align: right; }
+        .btn-custom { border-radius: 10px; font-weight: 600; }
+    </style>
 </head>
+<body class="container py-5">
 
-<body>
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">AI-Mektep-Bot</h1>
+        <p class="lead text-muted">10-модульдік интеллектуалды мектеп жүйесі</p>
+    </div>
 
-<div class="container">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card main-card h-100 p-4">
+                <h3 class="mb-4">🤖 ChatSchool көмекшісі</h3>
+                <div class="chat-area mb-3 d-flex flex-column">
+                    {% if user_message %}
+                        <div class="user-msg align-self-end"><b>Сіз:</b> {{ user_message }}</div>
+                    {% endif %}
+                    {% if answer %}
+                        <div class="bot-msg align-self-start"><b>AI:</b> {{ answer|safe }}</div>
+                    {% endif %}
+                </div>
+                <form action="/chat" method="POST">
+                    <div class="input-group">
+                        <input type="text" name="message" class="form-control" placeholder="Сұрақ қойыңыз (мысалы: Пифагор деген кім?)..." required>
+                        <button class="btn btn-primary btn-custom" type="submit">Жіберу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<h1>🤖 AI Мектеп көмекшісі</h1>
+        <div class="col-lg-6">
+            <div class="card main-card p-4 mb-4">
+                <h3 class="mb-3 text-success">📊 Бағаны болжау (Регрессия)</h3>
+                <form action="/predict" method="POST">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label small">Қатысу (%)</label>
+                            <input type="number" name="attendance" class="form-control" placeholder="60-100" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small">Ағымдағы балл</label>
+                            <input type="number" name="current_score" class="form-control" placeholder="0-100" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-success btn-custom w-100 mt-3" type="submit">Есептеу</button>
+                </form>
+                {% if grade %}
+                    <div class="alert alert-success mt-3 py-2">Болжамды баға: <strong>{{ grade }}</strong></div>
+                {% endif %}
+            </div>
 
-<div class="card">
+            <div class="card main-card p-4">
+                <h3 class="mb-3 text-warning">🛡️ Тәуекелді анықтау (Ансамбльдер)</h3>
+                <form action="/classify" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label small">Тест нәтижесі</label>
+                        <input type="number" name="score" class="form-control" placeholder="0-100" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Ансамбль моделі</label>
+                        <select name="model_type" class="form-select">
+                            <option value="RandomForest">Random Forest (Бэггинг)</option>
+                            <option value="AdaBoost">AdaBoost (Күшейту)</option>
+                            <option value="XGBoost">XGBoost (Extreme Gradient Boosting)</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-warning btn-custom w-100" type="submit">Модельді іске қосу</button>
+                </form>
+                {% if level %}
+                    <div class="alert alert-warning mt-3 py-2">Мәртебесі: <strong>{{ level }}</strong></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-<h2>Чат</h2>
-
-<form action="/chat" method="post">
-<input type="text" name="message"
-placeholder="Сұрағыңызды жазыңыз">
-<button type="submit">Жіберу</button>
-</form>
-
-{% if answer %}
-<p><b>Жауап:</b> {{ answer }}</p>
-{% endif %}
-
-</div>
-
-<div class="card">
-
-<h2>Бағаны болжау</h2>
-
-<form action="/predict" method="post">
-<input type="number"
-name="attendance"
-placeholder="Қатысу %">
-<button type="submit">Есептеу</button>
-</form>
-
-{% if grade %}
-<p>Болжамды баға: {{ grade }}</p>
-{% endif %}
-
-</div>
-
-<div class="card">
-
-<h2>Үлгерімді анықтау</h2>
-
-<form action="/classify" method="post">
-<input type="number"
-name="score"
-placeholder="Орташа балл">
-<button type="submit">Тексеру</button>
-</form>
-
-{% if level %}
-<p>Деңгей: {{ level }}</p>
-{% endif %}
-
-</div>
-
-</div>
+    <div class="text-center mt-5 text-muted">
+        <small>© 2026 AI-Mektep-Bot. ЖИ-ді этикалық және жауапты пайдалану платформасы.</small>
+    </div>
 
 </body>
 </html>
